@@ -921,7 +921,7 @@ function getUids(e) {
             t.push(getAbsHashCodeValue(n));
         } else {
             var r = e.replaceAll("\n", "").match(/uid {1,}in {0,}\([\d,'" ]+\)/);
-            null != r && r.length > 0 && (t = r[0].replace(/uid.*\(/, "").replaceAll(/['" )]/g, "").split(",").map(item => getAbsHashCodeValue(item))))
+            null != r && r.length > 0 && (t = r[0].replace(/uid.*\(/, "").replaceAll(/['" )]/g, "").split(",").map(item => getAbsHashCodeValue(item)))
         }
     } catch (e) {}
     return t
