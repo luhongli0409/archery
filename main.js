@@ -914,7 +914,7 @@ function inTable(e, t, a, n, r) {
 function getUids(e) {
     var t = [];
     try {
-        var a = e.replaceAll("\n", "").match(/uid {0,}=['" ]{0,}[^\s]+/);
+        var a = e.replaceAll("\n", "").match(/otherpay_batch {0,}=['" ]{0,}[^\s]+/);
         if (null != a && a.length > 0) {
             var indexOfEqual = a[0].indexOf("=");
             var n = a[0].substring(indexOfEqual + 1).replaceAll(/['" ]/g, "").trim();
