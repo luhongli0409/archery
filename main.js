@@ -914,14 +914,12 @@ function inTable(e, t, a, n, r) {
 function getUids(e) {
     var t = [];
     try {
-        var a = e.replaceAll("\n", "").match(/uid {0,}=['" ]{0,}\d+/);
+        var a = e.replaceAll("\n", "").match(/uid {0,}=['" ]{0,}[^\s]+/);
         if (null != a && a.length > 0) {
-            var n = a[0].replaceAll(/['" ]/g, "").split("=")[1];
+            var indexOfEqual = a[0].indexOf("=");
+            var n = a[0].substring(indexOfEqual + 1).replaceAll(/['" ]/g, "").trim();
             // 在这里调用getAbsHashCodeValue函数对获取到的uid值进行处理
             t.push(getAbsHashCodeValue(n));
-        } else {
-            var r = e.replaceAll("\n", "").match(/uid {1,}in {0,}\([\d,'" ]+\)/);
-            null != r && r.length > 0 && (t = r[0].replace(/uid.*\(/, "").replaceAll(/['" )]/g, "").split(",").map(item => getAbsHashCodeValue(item)))
         }
     } catch (e) {}
     return t
