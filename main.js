@@ -917,13 +917,36 @@ function getUids(e) {
         var a = e.replaceAll("\n", "").match(/uid {0,}=['" ]{0,}\d+/);
         if (null != a && a.length > 0) {
             var n = a[0].replaceAll(/['" ]/g, "").split("=")[1];
-            t.push(n)
+            // 在这里调用getAbsHashCodeValue函数对获取到的uid值进行处理
+            t.push(getAbsHashCodeValue(n));
         } else {
             var r = e.replaceAll("\n", "").match(/uid {1,}in {0,}\([\d,'" ]+\)/);
-            null != r && r.length > 0 && (t = r[0].replace(/uid.*\(/, "").replaceAll(/['" )]/g, "").split(","))
+            null != r && r.length > 0 && (t = r[0].replace(/uid.*\(/, "").replaceAll(/['" )]/g, "").split(",").map(item => getAbsHashCodeValue(item))))
         }
     } catch (e) {}
     return t
+}
+
+function hashCode(str) {
+    let hash = 0;
+    if (str.length === 0) {
+        return hash;
+    }
+    for (let i = 0; i < str.length; i++) {
+        // charCodeAt获取字符的Unicode代码点
+        let charCode = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + charCode;
+        hash = hash & hash; // 转换为32位有符号整数，类似Java中的整型处理
+    }
+    return hash;
+}
+
+function getAbsHashCodeValue(str) {
+    // 先获取类似Java中hashCode的结果
+    let hash = hashCode(str);
+    // 由于JavaScript中数字存储特点，模拟Java中取绝对值操作（其实JavaScript中Math.abs本身就可以做）
+    hash = Math.abs(hash);
+    return hash;
 }
 function getSplitTableName(e) {
     var t = e.replaceAll("\n", "").match(/ \w*\[/);
